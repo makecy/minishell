@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/18 13:23:31 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/18 13:28:36 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+void	ft_putendl_fd(char *s, int fd)
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		i++;
+	}
+	write(fd, s, i);
+	write(fd, "\n", 1);
 }

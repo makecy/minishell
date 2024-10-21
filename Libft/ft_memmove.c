@@ -1,20 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/12 19:25:08 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/13 16:14:43 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	const unsigned char	*s;
+	unsigned char		*d;
+
+	s = src;
+	d = dst;
+	if (d == s)
+		return (dst);
+	if (len + s <= d || len + d <= s)
+		while (len--)
+			*d++ = *s++;
+	else if (d < s)
+		while (len--)
+			*d++ = *s++;
+	else
+	{
+		d += len;
+		s += len;
+		while (len--)
+		{
+			*(--d) = *(--s);
+		}
+	}
+	return (dst);
 }

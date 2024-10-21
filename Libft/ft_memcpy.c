@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/12 15:21:45 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/23 16:30:03 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	const char	*s;
+	char		*d;
+
+	if (n == 0 || (dst == NULL && src == NULL))
+		return (dst);
+	d = (char *)dst;
+	s = (const char *)src;
+	while (n--)
+	{
+		*d++ = *s++;
+	}
+	return (dst);
 }

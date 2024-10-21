@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/14 16:36:35 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/14 17:22:36 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	(void) ac ;
-	(void) av ;
+	const unsigned char	*a;
+	const unsigned char	*b;
+
+	a = (const unsigned char *)s1;
+	b = (const unsigned char *)s2;
+	while (n--)
+	{
+		if (*a != *b)
+		{
+			return (*a - *b);
+		}
+		a++;
+		b++;
+	}
 	return (0);
 }

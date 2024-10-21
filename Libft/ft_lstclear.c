@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/30 20:39:26 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/30 20:56:08 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	t_list	*buf;
+
+	if (!lst)
+		return ;
+	while ((*lst))
+	{
+		buf = (*lst)->next;
+		ft_lstdelone((*lst), del);
+		(*lst) = buf;
+	}
 }

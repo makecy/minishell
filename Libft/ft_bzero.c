@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/07 12:22:05 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/23 15:42:26 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+void	ft_bzero(void *s, size_t n)
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	unsigned char	*c;
+	size_t			i;
+
+	i = 0;
+	c = (unsigned char *)s;
+	while (i < n)
+	{
+		c[i] = '\0';
+		i++;
+	}
 }

@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/06 16:15:52 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/14 15:07:44 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	unsigned char	*a;
+
+	a = (unsigned char *)b;
+	while (len > 0)
+	{
+		*a = (unsigned char)c;
+		a++;
+		len--;
+	}
+	return (b);
 }

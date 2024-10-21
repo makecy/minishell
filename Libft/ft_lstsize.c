@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/20 19:33:06 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/21 13:30:31 by mstefano         ###   ########.fr       */
+/*   Created: 2023/10/30 19:55:14 by mstefano          #+#    #+#             */
+/*   Updated: 2023/10/30 20:02:47 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int main (int ac, char **av)
+int	ft_lstsize(t_list *lst)
 {
-	(void) ac ;
-	(void) av ;
-	return (0);
+	int	count;
+
+	count = 1;
+	if (!lst)
+		return (0);
+	while (lst -> next)
+	{
+		count++;
+		lst = lst -> next;
+	}
+	return (count);
 }
