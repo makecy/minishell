@@ -2,3 +2,8 @@
 .vscode
 .vscode/
 minishell
+.DS_Store
+*.o
+*.out
+*.a
+*.dSYM
