@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 09:45:50 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/22 11:33:31 by psostari         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:49:06 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../includes/minishell.h"
 
 /*
 Function to calculate the distance(span) to the closing quote (form " to ")
 int span -> var that traks the number of char beteen " and ".
 char s -> var that stores first char of str (treated as opening quote ")
 */
-static int	quote_span(const char *str)
+int	quote_span(const char *str)
 {
 	int		span;
 	char	s;
@@ -35,7 +37,7 @@ static int	quote_span(const char *str)
 
 /*function caculates the len of the tokens which consist
 of different char within the str*/
-static int	token_len(const char *str)
+int	token_len(const char *str)
 {
 	int	len;
 
@@ -46,7 +48,7 @@ static int	token_len(const char *str)
 		return (1);
 	while (*(str + len) && !is_special_char(*(str + len)))
 	{
-		if (is_quotechr(*(str + len)))
+		if (check_if_quote(*(str + len)))
 			len += quote_span(str + len);
 		++len;
 	}
@@ -56,7 +58,7 @@ static int	token_len(const char *str)
 /* skips the spaces, increments the index as long it is white space,
 calculate len of token, allocation, cpy the token to allocated space and
 increments the index by the len of token*/
-static char	*take_token(const char *str, int *i)
+char	*take_token(const char *str, int *i)
 {
 	char	*token_str;
 	int		len;
@@ -64,8 +66,50 @@ static char	*take_token(const char *str, int *i)
 	while (is_spaceortab(str[*i]))
 		*i += 1;
 	len = token_len(str + *i);
-	token_len = (char *)malloc(sizeof(char) * len + 1);
-	ft_strcpy(token_str, str + *i, len + 1);
+	token_str = (char *)malloc(sizeof(char) * len + 1);
+	ft_strlcpy(token_str, str + *i, len + 1);
 	*i += len;
 	return (token_str);
+}
+
+//Tokenize tne input string
+
+char **tokenize_input(char *input)
+{
+	char	**tokens;
+	int i, position, buffsize;
+	char *token;
+
+	i = 0;
+	position = 0;
+	buffsize = BUFFER_SIZE;
+	tokens = malloc(buffsize * sizeof(char *));
+
+	if (!tokens)
+	{
+		fprintf(stderr, "minishell: allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+	while (input[i])
+	{
+		token = take_token(input, &i);
+		if (token)
+		{
+			tokens[position] = token;
+			position++;
+			if (position >= buffsize)
+			{
+				buffsize += BUFFER_SIZE;
+				tokens = realloc(tokens, buffsize * sizeof(char *));
+				if (!tokens)
+				{
+					fprintf(stderr, "minishell: allocation error\n");
+					exit(EXIT_FAILURE);
+				}
+			}
+		}
+		
+	}
+	tokens[position] = NULL;
+	return (tokens);
 }

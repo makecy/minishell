@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 09:45:34 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/22 11:17:37 by psostari         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:50:06 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../includes/minishell.h"
 
 /*if c is < or > */
 int	check_if_redirection(int c)
@@ -37,7 +39,7 @@ int	check_if_quote(int c)
 /*true if c is space tab or < , > or |*/
 int	is_special_char(int c)
 {
-	if (c == ' ' || c == '\t' || check_if_operatoro(c))
+	if (c == ' ' || c == '\t' || check_if_operator(c))
 		return (TRUE);
 	return (FALSE);
 }
