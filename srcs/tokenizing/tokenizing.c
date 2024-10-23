@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 09:45:50 by psostari          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/10/23 19:44:05 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -13,6 +14,17 @@
 #include "../../includes/minishell.h"
 
 
+=======
+/*   Updated: 2024/10/22 11:33:31 by psostari         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*
+Function to calculate the distance(span) to the closing quote (form " to ")
+int span -> var that traks the number of char beteen " and ".
+char s -> var that stores first char of str (treated as opening quote ")
+*/
+>>>>>>> parent of f4d1c79... added parsing, now when you ./minishell you go into a so called shell
 static int	quote_span(const char *str)
 {
 	int		span;
@@ -31,7 +43,12 @@ static int	quote_span(const char *str)
 	return (span);
 }
 
+<<<<<<< HEAD
 
+=======
+/*function caculates the len of the tokens which consist
+of different char within the str*/
+>>>>>>> parent of f4d1c79... added parsing, now when you ./minishell you go into a so called shell
 static int	token_len(const char *str)
 {
 	int	len;
@@ -50,7 +67,14 @@ static int	token_len(const char *str)
 	return (len);
 }
 
+<<<<<<< HEAD
 char	*take_token(const char *str, int *i)s
+=======
+/* skips the spaces, increments the index as long it is white space,
+calculate len of token, allocation, cpy the token to allocated space and
+increments the index by the len of token*/
+static char	*take_token(const char *str, int *i)
+>>>>>>> parent of f4d1c79... added parsing, now when you ./minishell you go into a so called shell
 {
 	char			*token_str;
 	int				len;
@@ -61,11 +85,12 @@ char	*take_token(const char *str, int *i)s
 	{
 		*i += 1;
 	len = token_len(str + *i);
-	token_str = (char *)malloc(sizeof(char) * len + 1);
-	ft_strlcpy(token_str, str + *i, len + 1);
+	token_len = (char *)malloc(sizeof(char) * len + 1);
+	ft_strcpy(token_str, str + *i, len + 1);
 	*i += len;
 	return (token_str);
 }
+<<<<<<< HEAD
 
 char **tokenize_input(char *input)
 {
@@ -106,3 +131,5 @@ char **tokenize_input(char *input)
 	tokens[position] = NULL;
 	return (tokens);
 }
+=======
+>>>>>>> parent of f4d1c79... added parsing, now when you ./minishell you go into a so called shell
