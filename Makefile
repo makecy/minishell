@@ -15,34 +15,30 @@ LIBFT_PATH = ./Libft
 LIBFT = $(LIBFT_PATH)/libft.a
 INCLUDES = -I $(LIBFT_PATH)
 
+$(LIBFT):
+	@make -C $(LIBFT_PATH)
+	@echo "$(GREEN)$(CHECK)Compiled Libft Successfully$(CHECK)$(RESET)"
+
 # Compilers
 
 CFLAGS = -Wall -Wextra -Werror -g3
 CC = gcc
-LDFLAGS = -lreadline
 
 # Sources
 
 SRC =	srcs/main.c \
-		srcs/tokenizing/tokenizing.c \
-		srcs/tokenizing/utils.c \
-		srcs/parser/parsing.c \
-		srcs/execution/signals.c \
-
+		# parser/parse.c \
 
 # Objects
 
 OBJ = $(SRC:.c=.o)
 
 
-all:  $(LIBFT) $(NAME)
+all: $(NAME) $(LIBFT)
 
-$(LIBFT):
-	@make -C $(LIBFT_PATH)
-	@echo "$(GREEN)$(CHECK)Compiled Libft Successfully$(CHECK)$(RESET)"
 
 $(NAME): $(LIBRARIES) $(OBJ)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(CHECK)Compiled $(NAME) Successfully$(CHECK)$(RESET)"
 
 %.o : %.c srcs/../includes/minishell.h
