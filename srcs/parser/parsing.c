@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:06:21 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/22 18:54:55 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/10/23 09:16:40 by psostari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *read_input(void)
+char	*read_input(void)
 {
-	char *input;
+	char	*input;
 
 	input = readline("minishell$ ");
 	if (input && *input)
@@ -22,15 +22,15 @@ char *read_input(void)
 	return (input);
 }
 
-void parse_tokens_recursive(char **tokens, int index)
+void	parse_tokens_recursive(char **tokens, int index)
 {
 	if (tokens[index] == NULL)
 		return ;
-	printf("Token[%d]: %s\n", index,  tokens[index]);
+	printf("Token[%d]: %s\n", index, tokens[index]);
 	parse_tokens_recursive(tokens, index + 1);
 }
 
-void parse_tokens(char **tokens)
+void	parse_tokens(char **tokens)
 {
 	if (tokens[0] == NULL)
 		return ;
