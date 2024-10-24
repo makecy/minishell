@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 10:03:19 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/23 19:43:53 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/10/24 12:07:27 by psostari         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	check_if_operator(int c)
+{
+	return (c == '&' || c == '|');
+}
 
 t_token	*ft_new_token(char *value, t_token_type type)
 {
