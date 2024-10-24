@@ -3,40 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:37:41 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/24 10:48:23 by psostari         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:29:36 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	print_tokens(t_token *tokens)
+
+int main ()
 {
-	t_token	*current;
+	char *input;
+	char **tokens;
 
-	current = tokens;
-	while (current)
+	while (1)
 	{
-		printf("Token: %s, Type: %d\n", current->value, current->type);
-		current = current->next;
+		input = read_input();
+		if (!input)
+			break ;
+			tokens = tokenize_input(input);
+		if (tokens[0] != NULL)
+		execute_command(tokens);
 	}
-}
-
-int	main(void)
-{
-	char	*input;
-	t_token	*tokens;
-
-	input = "ls -l | grep 'test' >> output.txt && echo 'done'";
-	tokens = tokenize_input(input);
-	if (tokens == NULL)
-	{
-		printf("No tokens found.\n");
-		return (1);
-	}
-	print_tokens(tokens);
-	ft_clear_token_list(&tokens);
-	return (0);
+	free(input);
+	free(tokens);
 }

@@ -1,38 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prasing.c                                          :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/19 16:06:21 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/24 13:20:05 by mstefano         ###   ########.fr       */
+/*   Created: 2024/10/24 13:24:01 by mstefano          #+#    #+#             */
+/*   Updated: 2024/10/24 13:26:14 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *read_input(void)
+void wait_for_child(pid_t pid)
 {
-	char *input;
-
-	input = readline("minishell$ ");
-	if (input && *input)
-		add_history(input);
-	return (input);
+	int status;
+	
+	if (waitpid(pid, &status, WUNTRACED) == -1)
+	{
+		perror("minishell");
+		return ;
+	}
+	if (!WIFEXITED(status) && !WIFSIGNALED(status))
+		wait_for_child(pid);
 }
 
-void parse_tokens_recursive(char **tokens, int index)
+void execute_command(char **tokens)
 {
-	if (tokens[index] == NULL)
-		return ;
-	printf("Token[%d]: %s\n", index,  tokens[index]);
-	parse_tokens_recursive(tokens, index + 1);
-}
-
-void parse_tokens(char **tokens)
-{
-	if (tokens[0] == NULL)
-		return ;
-	parse_tokens_recursive(tokens, 0);
+	pid_t pid;
+	pid = fork();;
+	
+	if (pid == 0)
+	{
+		if (execve(tokens[0], tokens, NULL) == -1)
+			perror("minishell");
+		exit(EXIT_FAILURE);
+	}
+		else if (pid < 0)
+			perror("minishell");
+		else 
+			wait_for_child(pid);
 }

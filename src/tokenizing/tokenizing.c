@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:41:43 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/24 12:09:36 by psostari         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:28:07 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,67 +59,56 @@ int	token_len(const char *str)
 	return (len);
 }
 
-t_token	*take_token(const char *str, int *i)
+char	*take_token(const char *str, int *i)
 {
-	char			*token_str;
-	int				len;
-	t_token			*new_token;
-	t_token_type	type;
+	char	*token_str;
+	int		len;
 
 	while (is_spaceortab(str[*i]))
-	{
 		*i += 1;
-	}
-	if (check_if_operator(str[*i]))
-	{
-		if (!strncmp(str + *i, "<<", 2) || !strncmp(str + *i, ">>", 2))
-		{
-			len = 2;
-			type = T_REDIRECTION;
-		}
-		else if (!strncmp(str + *i, "&&", 2) || !strncmp(str + *i, "||", 2))
-		{
-			len = 2;
-			type = T_AND;
-		}
-		else
-		{
-			len = 1;
-			type = T_PIPE;
-		}
-	}
-	else
-	{
-		len = token_len(str + *i);
-		type = T_IDENTIFIER;
-	}
-	token_str = (char *)malloc(sizeof(char) * (len + 1));
-	if (!token_str)
+	len = token_len(str + *i);
+	token_str = (char *)malloc(sizeof(char) * len + 1);
+	ft_strlcpy(token_str, str + *i, len + 1);
+	*i += len;
+	return (token_str);
+}
+
+char **tokenize_input(char *input)
+{
+	char	**tokens;
+	int i, position, buffsize;
+	char *token;
+
+	i = 0;
+	position = 0;
+	buffsize = BUFFER_SIZE;
+	tokens = malloc(buffsize * sizeof(char *));
+
+	if (!tokens)
 	{
 		fprintf(stderr, "minishell: allocation error\n");
 		exit(EXIT_FAILURE);
 	}
-	ft_strlcpy(token_str, str + *i, len + 1);
-	*i += len;
-	new_token = ft_new_token(token_str, type);
-	return (new_token);
-}
-
-t_token	*tokenize_input(char *input)
-{
-	t_token	*tokens;
-	t_token	*token;
-	int		i;
-
-	i = 0;
-	tokens = NULL;
 	while (input[i])
 	{
 		token = take_token(input, &i);
 		if (token)
 		{
-			ft_token_list_add_back(&tokens, token);
+			tokens[position] = token;
+			position++;
+			if (position >= buffsize)
+			{
+				buffsize += BUFFER_SIZE;
+				tokens = realloc(tokens, buffsize * sizeof(char *));
+				if (!tokens)
+				{
+					fprintf(stderr, "minishell: allocation error\n");
+					exit(EXIT_FAILURE);
+				}
+			}
 		}
+		
 	}
+	tokens[position] = NULL;
 	return (tokens);
 }

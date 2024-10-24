@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psostari <psostari@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:31:53 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/24 12:10:54 by psostari         ###   ########.fr       */
+/*   Updated: 2024/10/24 13:28:34 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+#define BUFFER_SIZE 1024
 
 typedef enum e_token_type {
 	T_IDENTIFIER,
@@ -39,8 +41,8 @@ typedef struct s_token
 //TOKENIZING
 int		quote_span(const char *str);
 int		token_len(const char *str);
-t_token	*take_token(const char *str, int *i);
-t_token	*tokenize_input(char *input);
+char	*take_token(const char *str, int *i);
+char **tokenize_input(char *input);
 
 //UTILS
 int		check_if_redirection(int c);
@@ -54,4 +56,16 @@ int		check_if_operator(int c);
 t_token	*ft_new_token(char *value, t_token_type type);
 void	ft_token_list_add_back(t_token **lst, t_token *new_token);
 void	ft_clear_token_list(t_token **lst);
+
+// PARSING
+
+char *read_input(void);
+void parse_tokens_recursive(char **tokens, int index);
+void parse_tokens(char **tokens);
+
+// EXECUTION
+
+void wait_for_child(pid_t pid);
+void execute_command(char **tokens);
+
 #endif
