@@ -6,11 +6,11 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 13:24:01 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/24 13:26:14 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:01:03 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void wait_for_child(pid_t pid)
 {

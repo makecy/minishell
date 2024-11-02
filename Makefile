@@ -11,6 +11,7 @@ CHECK = \xE2\x9C\x94
 BROOM = \xF0\x9F\xA7\xB9
 
 #Libft
+
 LIBFT_PATH = ./Libft
 LIBFT = $(LIBFT_PATH)/libft.a
 INCLUDES = -I $(LIBFT_PATH)
@@ -30,11 +31,9 @@ SRC =	src/main.c \
 		src/execution/exec.c \
 		src/parser/prasing.c 
 
-
 # Objects
 
 OBJ = $(SRC:.c=.o)
-
 
 all:  $(LIBFT) $(NAME)
 
@@ -47,7 +46,7 @@ $(NAME): $(LIBRARIES) $(OBJ)
 	@echo "$(GREEN)$(CHECK)Compiled $(NAME) Successfully$(CHECK)$(RESET)"
 
 %.o : %.c srcs/../includes/minishell.h
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@make -C $(LIBFT_PATH) clean
@@ -60,7 +59,6 @@ fclean: clean
 	@rm -f $(NAME)
 	@echo "$(RED)$(BROOM)Cleaned Libft Executable$(BROOM)$(RESET)"
 	@echo "$(RED)$(BROOM)Cleaned $(NAME) Executable$(BROOM)$(RESET)"
-
 
 re: fclean all
 

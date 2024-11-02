@@ -6,11 +6,11 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:06:21 by mstefano          #+#    #+#             */
-/*   Updated: 2024/10/24 13:20:05 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/10/28 18:14:03 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char *read_input(void)
 {

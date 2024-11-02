@@ -28,15 +28,14 @@ NAME = libft.a
 
 all : $(NAME)
 
-$(NAME) : $(OBJ)
-	@ar rcs $(NAME) $(OBJ)
+$(NAME) : $(OBJ) $(BONUSOBJ)
+	@ar rcs $(NAME) $(OBJ) $(BONUSOBJ)
 	
 %.o: %.c
 	@$(CC) $(CFLAGS) -c -o $@ $<
 
-bonus : $(OBJ) $(BONUSOBJ)
-	@ar rcs $(NAME) $(OBJ) $(BONUSOBJ)
-
+bonus : $(BONUSOBJ)
+	@ar rcs $(NAME) $(BONUSOBJ)
 
 clean:
 	@rm -f $(OBJ) $(BONUSOBJ)
