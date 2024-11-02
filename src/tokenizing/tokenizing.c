@@ -6,19 +6,12 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:41:43 by psostari          #+#    #+#             */
-/*   Updated: 2024/10/24 13:28:07 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:32:06 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/*
-Function to calculate the distance(span) to the closing quote (form " to ")
-int span -> var that traks the number of char beteen " and ".
-char s -> var that stores first char of str (treated as opening quote ")
-*/
-/*parent of f4d1c79... added parsing, now when you ./minishell
- you go into a so called shell*/
 int	quote_span(const char *str)
 {
 	int		span;
@@ -37,10 +30,6 @@ int	quote_span(const char *str)
 	return (span);
 }
 
-/*function caculates the len of the tokens which consist
-of different char within the str*/
-/*parent of f4d1c79... added parsing, now when you ./minishell
- you go into a so called shell*/
 int	token_len(const char *str)
 {
 	int	len;
@@ -76,8 +65,10 @@ char	*take_token(const char *str, int *i)
 char **tokenize_input(char *input)
 {
 	char	**tokens;
-	int i, position, buffsize;
-	char *token;
+	int		i;
+	int		position;
+	int		buffsize;
+	char 	*token;
 
 	i = 0;
 	position = 0;
@@ -107,7 +98,6 @@ char **tokenize_input(char *input)
 				}
 			}
 		}
-		
 	}
 	tokens[position] = NULL;
 	return (tokens);

@@ -45,8 +45,8 @@ $(NAME): $(LIBRARIES) $(OBJ)
 	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJ) $(LIBFT) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)$(CHECK)Compiled $(NAME) Successfully$(CHECK)$(RESET)"
 
-%.o : %.c srcs/../includes/minishell.h
-	@$(CC) $(CFLAGS) -c $< -o $@
+%.o : %.c
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	@make -C $(LIBFT_PATH) clean
