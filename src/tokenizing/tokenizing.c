@@ -6,11 +6,12 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:41:43 by psostari          #+#    #+#             */
-/*   Updated: 2024/11/02 21:32:06 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/08 13:39:11 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 
 int	quote_span(const char *str)
 {
@@ -22,9 +23,7 @@ int	quote_span(const char *str)
 	if (str == NULL || *str == '\0')
 		return (0);
 	while (str[span] && str[span] != s)
-	{
 		++span;
-	}
 	if (str[span] == '\0')
 		span--;
 	return (span);
@@ -65,40 +64,47 @@ char	*take_token(const char *str, int *i)
 char **tokenize_input(char *input)
 {
 	char	**tokens;
+	char	quote;
+	int		token_index;
+	int		start;
 	int		i;
-	int		position;
-	int		buffsize;
-	char 	*token;
-
+	tokens = malloc(sizeof(char *) * (MAX_TOKENS));
+	token_index = 0;
 	i = 0;
-	position = 0;
-	buffsize = BUFFER_SIZE;
-	tokens = malloc(buffsize * sizeof(char *));
 
-	if (!tokens)
+	while (input[i] != '\0')
 	{
-		fprintf(stderr, "minishell: allocation error\n");
-		exit(EXIT_FAILURE);
-	}
-	while (input[i])
-	{
-		token = take_token(input, &i);
-		if (token)
+		while (input[i] == ' ' || input[i] == '\t')
+			i++;
+		if (input[i] == '\"' || input[i] == '\'')
 		{
-			tokens[position] = token;
-			position++;
-			if (position >= buffsize)
+			quote = input[i++];
+			start = i;
+			while (input[i] != '\0' && input[i] != quote)
+				i++;
+			if (input[i] == '\0')
 			{
-				buffsize += BUFFER_SIZE;
-				tokens = realloc(tokens, buffsize * sizeof(char *));
-				if (!tokens)
-				{
-					fprintf(stderr, "minishell: allocation error\n");
-					exit(EXIT_FAILURE);
-				}
+				fprintf(stderr, "Error: unmatched quote\n");
+				free(tokens);
+				return NULL;
 			}
+			tokens[token_index++] = ft_strndup(&input[start], i - start);
+			i++;
+		}
+		else if (is_special_char(input[i]))
+		{
+			tokens[token_index++] = ft_strndup(&input[i], 1);
+			i++;
+		}
+		else
+		{
+			int start = i;
+			while (input[i] != '\0' && input[i] != ' ' && input[i] != '\t' && !is_special_char(input[i]))
+				i++;
+			tokens[token_index++] = ft_strndup(&input[start], i - start);
 		}
 	}
-	tokens[position] = NULL;
-	return (tokens);
+
+	tokens[token_index] = NULL;
+	return tokens;
 }

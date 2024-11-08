@@ -29,7 +29,8 @@ SRC =	src/main.c \
 		src/tokenizing/utils.c \
 		src/tokenizing/token_utils.c \
 		src/execution/exec.c \
-		src/parser/prasing.c 
+		src/parser/prasing.c \
+		src/parser/parsing_utils.c 
 
 # Objects
 
