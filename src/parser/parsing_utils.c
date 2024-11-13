@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:32:53 by mstefano          #+#    #+#             */
-/*   Updated: 2024/11/08 14:21:49 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/08 20:18:11 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,17 @@ char	**append_arg(char **args, char *new_arg)
 	char	**new_args;
 	i = 0;
 
-    while (args[i] != NULL) {
+    while (args[i] != NULL) 
         i++;
-    }
 	new_args = (char **)malloc((i + 2) * sizeof(char *));
-    if (!new_args) {
+    if (!new_args) 
+	{
         perror("malloc failed");
         return NULL;
 	}
-	j = 0;
-	while (j < i)
-	{
+	j = -1;
+	while (++j < i)
         new_args[j] = args[j];
-		j++;
-    }
     new_args[i] = new_arg;
     new_args[i + 1] = NULL;
     return new_args;

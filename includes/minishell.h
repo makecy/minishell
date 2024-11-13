@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:31:53 by psostari          #+#    #+#             */
-/*   Updated: 2024/11/08 16:09:03 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:51:05 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ bool	is_special_char(int c);
 int		is_spaceortab(int c);
 void	ft_print_quote_err(char c);
 
-
 //TOKEN UTILS
 int		check_if_operator(int c);
 t_token	*ft_new_token(char *value, t_token_type type);
@@ -84,7 +83,6 @@ void		parse_tokens(char **tokens);
 void		parse_redirections(char **tokens, t_command *command);
 char		*expand_env_vars(char *input);
 t_command	*parse_commands(char **tokens);
-t_token_type categorize_token(char *token);
 
 // PARSING UTILS
 char	*ft_strndup(const char *src, size_t n);
