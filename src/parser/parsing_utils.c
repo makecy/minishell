@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 13:32:53 by mstefano          #+#    #+#             */
-/*   Updated: 2024/11/08 20:18:11 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:34:40 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,10 @@ int	is_valid_var_char(char c, int is_first_char)
     } else {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
     }
+}
+
+void	handle_parsing_error(const char *message, int line) 
+{
+    fprintf (stderr, "Parsing error at line %d: %s\n", line, message);
+    exit (EXIT_FAILURE);
 }

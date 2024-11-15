@@ -6,7 +6,7 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 09:31:53 by psostari          #+#    #+#             */
-/*   Updated: 2024/11/14 19:24:00 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:51:55 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,22 @@ void	ft_token_list_add_back(t_token **lst, t_token *new_token);
 void	ft_clear_token_list(t_token **lst);
 
 // PARSING
-char		*read_input(void);
+char		*read_input_n_expand_env(char **envp);
 void		parse_tokens_recursive(char **tokens, int index);
 void		parse_tokens(char **tokens);
 void		parse_redirections(char **tokens, t_command *command);
-char		*expand_env_vars(char *input);
+// char		*expand_env_vars(char *input);
 t_command	*parse_commands(char **tokens);
+
+// EXPANSION
+char	*get_env_value(const char *key, char **envp);
+char	*expand_env_variables(char *input, char **envp);
 
 // PARSING UTILS
 char	*ft_strndup(const char *src, size_t n);
 char	**append_arg(char **args, char *new_arg);
 int		is_valid_var_char(char c, int is_first_char);
+void	handle_parsing_error(const char *message, int line);
 
 // EXECUTION
 void	wait_for_child(pid_t pid);

@@ -6,20 +6,26 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:06:21 by mstefano          #+#    #+#             */
-/*   Updated: 2024/11/14 00:34:55 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:51:30 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*read_input(void)
+char	*read_input_n_expand_env(char **envp)
 {
 	char	*input;
+	char	*expanded_input;
 
-	input = readline("minishell$ ");
+	expanded_input = NULL;
+	input = readline("minishell > ");
 	if (input && *input)
+	{
 		add_history(input);
-	return (input);
+		expanded_input = expand_env_variables(input, envp);
+		free(input);
+	}
+	return (expanded_input);
 }
 
 void	parse_tokens_recursive(char **tokens, int index)
@@ -93,33 +99,33 @@ t_command	*parse_commands(char **tokens)
 	return (head);
 }
 
-char	*expand_env_vars(char *input)
-{
-	char	*expanded;
-	char	var_name[MAX_VAR_LENGTH];
-	char	*var_value;
-	int		indices[3]; // previously int i, j, k now indices[0] = i, indices[1] = j, indices[2] = k
+// char	*expand_env_vars(char *input)
+// {
+// 	char	*expanded;
+// 	char	var_name[MAX_VAR_LENGTH];
+// 	char	*var_value;
+// 	int		indices[3]; // previously int i, j, k now indices[0] = i, indices[1] = j, indices[2] = k
 	
-	expanded = malloc(MAX_EXPANSION_SIZE);
-	var_value = NULL;
-	indices[0] = 0;
-	indices[1] = 0;
-	while (input[indices[0]] != '\0')
-	{
-		if (input[indices[0]] == '$'
-			&& is_valid_var_char(input[indices[0] + 1], 1))
-		{
-			indices[2] = 0;
-			indices[0]++;
-			while (is_valid_var_char(input[indices[0]], 0))
-				var_name[indices[2]++] = input[indices[0]++];
-			var_name[indices[2]] = '\0';
-			var_value = getenv(var_name);
-			if (var_value)
-				indices[1] += snprintf(&expanded[indices[1]], MAX_EXPANSION_SIZE - indices[1], "%s", var_value);
-		}
-		else
-			expanded[indices[1]++] = input[indices[0]++];
-	}
-	expanded[indices[1]] = '\0'; return expanded;
-}
+// 	expanded = malloc(MAX_EXPANSION_SIZE);
+// 	var_value = NULL;
+// 	indices[0] = 0;
+// 	indices[1] = 0;
+// 	while (input[indices[0]] != '\0')
+// 	{
+// 		if (input[indices[0]] == '$'
+// 			&& is_valid_var_char(input[indices[0] + 1], 1))
+// 		{
+// 			indices[2] = 0;
+// 			indices[0]++;
+// 			while (is_valid_var_char(input[indices[0]], 0))
+// 				var_name[indices[2]++] = input[indices[0]++];
+// 			var_name[indices[2]] = '\0';
+// 			var_value = getenv(var_name);
+// 			if (var_value)
+// 				indices[1] += snprintf(&expanded[indices[1]], MAX_EXPANSION_SIZE - indices[1], "%s", var_value);
+// 		}
+// 		else
+// 			expanded[indices[1]++] = input[indices[0]++];
+// 	}
+// 	expanded[indices[1]] = '\0'; return expanded;
+// }

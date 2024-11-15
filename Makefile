@@ -30,7 +30,8 @@ SRC =	src/main.c \
 		src/tokenizing/token_utils.c \
 		src/execution/exec.c \
 		src/parser/parsing.c \
-		src/parser/parsing_utils.c 
+		src/parser/parsing_utils.c \
+		src/expansion/expand_env.c
 
 # Objects
 
