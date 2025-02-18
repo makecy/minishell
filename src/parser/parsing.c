@@ -6,26 +6,20 @@
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 16:06:21 by mstefano          #+#    #+#             */
-/*   Updated: 2024/11/15 16:56:14 by mstefano         ###   ########.fr       */
+/*   Updated: 2024/12/23 19:37:15 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*read_input_n_expand_env(char **envp)
+char	*read_input(void)
 {
 	char	*input;
-	char	*expanded_input;
 
-	expanded_input = NULL;
-	input = readline("minishell > ");
+	input = readline("minishell$ ");
 	if (input && *input)
-	{
 		add_history(input);
-		expanded_input = expand_env_variables(input, envp);
-		free(input);
-	}
-	return (expanded_input);
+	return (input);
 }
 
 void	parse_tokens_recursive(char **tokens, int index)
@@ -43,27 +37,33 @@ void	parse_tokens(char **tokens)
 	parse_tokens_recursive(tokens, 0);
 }
 
-void	parse_redirections(char **tokens, t_command *command)
+char	**append_arg(char **args, char *new_arg)
 {
-	int				i;
-	t_redirection	*redir;
+	int		i;
+	char	**new_args;
+	int		j;
 
+	if (!args)
+		return (create_initial_args(new_arg));
 	i = 0;
-	while (tokens[i])
+	while (args[i])
+		i++;
+	new_args = malloc((i + 2) * sizeof(char *));
+	if (!new_args)
 	{
-		if (ft_strncmp(tokens[i], ">", 1) == 0
-			|| ft_strncmp(tokens[i], ">>", 2) == 0
-			|| ft_strncmp(tokens[i], "<", 1) == 0
-			|| ft_strncmp(tokens[i], "<<", 2) == 0)
-		{
-			redir = malloc(sizeof(t_redirection));
-			redir->type = ft_strdup(tokens[i]);
-			redir->file = ft_strdup(tokens[++i]);
-			redir->next = command->redirections;
-			command->redirections = redir;
-			i++;
-		}
+		perror("malloc failed");
+		return (NULL);
 	}
+	j = 0;
+	while (j < i)
+	{
+		new_args[j] = args[j];
+		j++;
+	}
+	new_args[i] = strdup(new_arg);
+	new_args[i + 1] = NULL;
+	free(args);
+	return (new_args);
 }
 
 t_command	*parse_commands(char **tokens)
@@ -72,60 +72,25 @@ t_command	*parse_commands(char **tokens)
 	t_command	*current;
 	int			i;
 
-	i = 0;
-	current = NULL;
 	head = NULL;
+	current = NULL;
+	i = 0;
 	while (tokens[i])
 	{
-		if (ft_strncmp(tokens[i], "|", 1) == 0)
+		if (ft_strcmp(tokens[i], "|") == 0)
 		{
-			if (current)
-			{
-				current->next = malloc(sizeof(t_command));
-				current = current->next;
-			}
+			handle_pipe_token(&current);
+			i++;
+			continue ;
 		}
-		else
+		if (!current)
 		{
-			if (!current)
-			{
-				head = malloc(sizeof(t_command));
-				current = head;
-			}
-			current->args = append_arg(current->args, tokens[i]);
+			current = create_new_command();
+			head = current;
 		}
+		current->args = append_arg(current->args, tokens[i]);
 		i++;
 	}
+	parse_redirections_for_commands(head);
 	return (head);
 }
-
-// char	*expand_env_vars(char *input)
-// {
-// 	char	*expanded;
-// 	char	var_name[MAX_VAR_LENGTH];
-// 	char	*var_value;
-// 	int		indices[3]; // previously int i, j, k now indices[0] = i, indices[1] = j, indices[2] = k
-	
-// 	expanded = malloc(MAX_EXPANSION_SIZE);
-// 	var_value = NULL;
-// 	indices[0] = 0;
-// 	indices[1] = 0;
-// 	while (input[indices[0]] != '\0')
-// 	{
-// 		if (input[indices[0]] == '$'
-// 			&& is_valid_var_char(input[indices[0] + 1], 1))
-// 		{
-// 			indices[2] = 0;
-// 			indices[0]++;
-// 			while (is_valid_var_char(input[indices[0]], 0))
-// 				var_name[indices[2]++] = input[indices[0]++];
-// 			var_name[indices[2]] = '\0';
-// 			var_value = getenv(var_name);
-// 			if (var_value)
-// 				indices[1] += snprintf(&expanded[indices[1]], MAX_EXPANSION_SIZE - indices[1], "%s", var_value);
-// 		}
-// 		else
-// 			expanded[indices[1]++] = input[indices[0]++];
-// 	}
-// 	expanded[indices[1]] = '\0'; return expanded;
-// }

@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/23 12:06:59 by mstefano          #+#    #+#             */
-/*   Updated: 2024/12/17 18:54:03 by mstefano         ###   ########.fr       */
+/*   Created: 2024/10/25 10:39:26 by psostari          #+#    #+#             */
+/*   Updated: 2024/12/22 21:26:09 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+int	ft_pwd(void)
 {
-	char	*newstr;
-	size_t	len;
-	size_t	i;
-	size_t	j;
+	char	*cwd;
 
-	i = 0;
-	j = 0;
-	if (set[i] == '\0' || s1[i] == '\0')
-		return (ft_strdup(s1));
-	len = ft_strlen(s1);
-	while (ft_strchr(set, s1[i]))
-		i++;
-	while (ft_strrchr(set, s1[len - j - 1]))
-		j++;
-	newstr = ft_substr(s1, i, len - i - j);
-	return (newstr);
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return (1);
+	printf("%s\n", cwd);
+	free(cwd);
+	return (0);
 }

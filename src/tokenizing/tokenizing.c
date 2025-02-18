@@ -5,13 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mstefano <mstefano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 09:41:43 by psostari          #+#    #+#             */
-/*   Updated: 2024/11/08 13:39:11 by mstefano         ###   ########.fr       */
+/*   Created: 2024/11/11 09:10:30 by psostari          #+#    #+#             */
+/*   Updated: 2024/12/23 20:25:18 by mstefano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	quote_span(const char *str)
 {
@@ -61,50 +60,54 @@ char	*take_token(const char *str, int *i)
 	return (token_str);
 }
 
-char **tokenize_input(char *input)
+static char	*get_token(const char *input, int *i, int *err)
+{
+	int	start;
+
+	if (!input[*i])
+		return (NULL);
+	if (input[*i] == '\"' || input[*i] == '\'')
+		return (parse_quoted_token(input, i, err));
+	if (input[*i] == '>' && input[*i + 1] == '>')
+	{
+		*i += 2;
+		return (strndup(">>", 2));
+	}
+	if (input[*i] == '<' || input[*i] == '>' || input[*i] == '|')
+		return (strndup(&input[(*i)++], 1));
+	start = *i;
+	while (input[*i] && input[*i] != ' ' && input[*i] != '\t'
+		&& !is_special_char(input[*i]))
+		(*i)++;
+	if (*i > start)
+		return (strndup(input + start, *i - start));
+	return (NULL);
+}
+
+char	**tokenize_input(const char *input_line, int i, int err)
 {
 	char	**tokens;
-	char	quote;
 	int		token_index;
-	int		start;
-	int		i;
-	tokens = malloc(sizeof(char *) * (MAX_TOKENS));
+	char	*token;
+
+	tokens = malloc(sizeof(char *) * MAX_TOKENS);
+	if (!tokens)
+		return (NULL);
 	token_index = 0;
-	i = 0;
-
-	while (input[i] != '\0')
+	while (input_line[i])
 	{
-		while (input[i] == ' ' || input[i] == '\t')
+		while (input_line[i] == ' ' || input_line[i] == '\t')
 			i++;
-		if (input[i] == '\"' || input[i] == '\'')
+		if (!input_line[i])
+			break ;
+		token = get_token(input_line, &i, &err);
+		if (err)
 		{
-			quote = input[i++];
-			start = i;
-			while (input[i] != '\0' && input[i] != quote)
-				i++;
-			if (input[i] == '\0')
-			{
-				fprintf(stderr, "Error: unmatched quote\n");
-				free(tokens);
-				return NULL;
-			}
-			tokens[token_index++] = ft_strndup(&input[start], i - start);
-			i++;
+			free_tokens_on_error(tokens, token_index);
+			return (NULL);
 		}
-		else if (is_special_char(input[i]))
-		{
-			tokens[token_index++] = ft_strndup(&input[i], 1);
-			i++;
-		}
-		else
-		{
-			int start = i;
-			while (input[i] != '\0' && input[i] != ' ' && input[i] != '\t' && !is_special_char(input[i]))
-				i++;
-			tokens[token_index++] = ft_strndup(&input[start], i - start);
-		}
+		if (token)
+			tokens[token_index++] = token;
 	}
-
-	tokens[token_index] = NULL;
-	return tokens;
+	return (tokens[token_index] = NULL, tokens);
 }
